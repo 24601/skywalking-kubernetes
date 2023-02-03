@@ -93,7 +93,7 @@ Create the name of the service account to use for the satellite cluster
     {{- if .Values.elasticsearch.enabled }}
   command: ['sh', '-c', 'for i in $(seq 1 60); do nc -z -w3 {{ .Values.elasticsearch.clusterName }}-{{ .Values.elasticsearch.nodeGroup }} {{ .Values.elasticsearch.httpPort }} && exit 0 || sleep 5; done; exit 1']
     {{- else }}
-  command: ['sh', '-c', 'echo "hi" && exit 0 || sleep 5; done; exit 1']
+  command: ['sh', '-c', 'for i in $(seq 1 60); do nc -z -w3 {{ .Values.elasticsearch.config.host }} {{ .Values.elasticsearch.config.port.http }} && exit 0 || sleep 5; done; exit 1']
     {{- end }}
 {{- else if eq .Values.oap.storageType "postgresql" -}}
 - name: wait-for-postgresql
